@@ -56,17 +56,31 @@ A simple Flask UI allows users to enter symptoms via dropdowns and get instant a
 
 The fuzzy system currently supports classification of:
 
-- **Powdery Mildew**  
-- **Downy Mildew**  
-- **Leaf Rust**  
-- **Early Blight**  
-- **Late Blight**  
-- **Anthracnose**  
-- **Botrytis Blight**  
-- **Septoria Leaf Spot**
 - **Tip Burn**
 - **Black Spot**
-- 
+- **Shot Hole**
+- **Helminthosporium Blight**
+- **Blister Blight**
+- **Leaf Scorch**
+- **Chlorosis**
+- **Yellow Vein Mosaic**
+- **Mosaic Virus**
+- **Leaf Curl Virus**
+- **Bacterial Blight Cotton**
+- **Angular Leaf Spot**
+- **Bacterial Pustule**
+- **Bacterial Leaf Spot**
+- **Bacterial Leaf Blight**
+- **Fusarium Blight**
+- **Septoria Leaf Spot**
+- **Botrytis Blight**
+- **Sooty Mold**
+- **Rust**
+- **Anthracnose**
+- **Cercospora Leaf Spot**
+- **Leaf Spot**
+- **Downy Mildew**
+- **Powdery Mildew**
 
 Each disease has its own expert-defined rule set and matching conditions.
 
