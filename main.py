@@ -137,6 +137,11 @@ rules.append(ctrl.Rule(
     A('temperature', 'hot') & A('humidity', 'low') & A('sunlight', 'high'),
     diseases['Tip_Burn']
 ))
+rules.append(ctrl.Rule(
+    A('shape', 'elongated') & A('necrosis', 'high') & A('defoliation_severity', 'low') &
+    A('temprature', 'hot'),
+    diseases['Tip_Burn'] 
+))
 
 # Rule 2: Black_Spot
 rules.append(ctrl.Rule(
@@ -223,6 +228,10 @@ rules.append(ctrl.Rule(
     A('temperature', 'warm') & A('humidity', 'high') & A('sunlight', 'low'),
     diseases['Angular_Leaf_Spot']
 ))
+rules.append(ctrl.Rule(
+    A('color', 'brown') & A('shape', 'angular') & (A('texture', 'dry') | A('texture', 'water_soaked')),
+    diseases['Angular_Leaf_Spot']
+))
 
 # Rule 13: Bacterial_Pustule
 rules.append(ctrl.Rule(
@@ -247,7 +256,10 @@ rules.append(ctrl.Rule(
     A('temperature', 'warm') & A('humidity', 'high') & A('sunlight', 'moderate'),
     diseases['Bacterial_Leaf_Blight']
 ))
-
+rules.append(ctrl.Rule(
+    A('texture', 'water_soaked') & (A('color', 'yellowish') | A('color', 'brownish')),
+    diseases['Bacterial_Leaf_Blight']
+))
 # Rule 16: Fusarium_Blight
 rules.append(ctrl.Rule(
     A('color', 'brownish') & A('shape', 'irregular') & A('texture', 'dry') &
@@ -287,6 +299,11 @@ rules.append(ctrl.Rule(
     A('temperature', 'mild') & A('humidity', 'moderate') & A('sunlight', 'high'),
     diseases['Rust']
 ))
+rules.append(ctrl.Rule(
+    (A('color', 'yellow') | A('color', 'reddish_orange') | A('color', 'brownish'))
+    & A('shape', 'small_raised'),
+    diseases['Rust']
+))
 
 # Rule 21: Anthracnose
 rules.append(ctrl.Rule(
@@ -311,12 +328,20 @@ rules.append(ctrl.Rule(
     A('temperature', 'mild') & A('humidity', 'high') & A('sunlight', 'moderate'),
     diseases['Leaf_Spot']
 ))
+rules.append(ctrl.Rule(
+    A('color', 'dark_brown') & A('shape', 'irregular') & A('texture', 'rough'),
+    diseases['Leaf_Spot']
+))
 
 # Rule 24: Downy_Mildew
 rules.append(ctrl.Rule(
     A('color', 'pale_yellow') & A('texture', 'downy') & A('curl', 'slight') &
     A('necrosis', 'moderate') & A('defoliation_severity', 'low') &
     A('temperature', 'mild') & A('humidity', 'high') & A('sunlight', 'low'),
+    diseases['Downy_Mildew']
+))
+rules.append(ctrl.Rule(
+    A('texture', 'downy') & A('color', 'pale_yellow'),
     diseases['Downy_Mildew']
 ))
 
@@ -326,6 +351,10 @@ rules.append(ctrl.Rule(
     A('necrosis', 'low') & A('defoliation_severity', 'moderate') &
     A('temperature', 'mild') & A('humidity', 'moderate') & A('sunlight', 'low'),
     diseases['Powdery_Mildew']
+))
+rules.append(ctrl.Rule(
+    A('texture', 'powdery') & (A('color', 'whitish') | A('color', 'light_gray')),
+      diseases['Powdery_Mildew']
 ))
 
 #Control system
