@@ -3,36 +3,47 @@ from skfuzzy import control as ctrl
 import skfuzzy as fuzz
 
 # Mapping dictionaries (categorical → numeric centers)
+# color_map = {
+#     'brown_tips': 0.5, 'black': 1.5, 'brown': 2.5, 'dark_brown': 3.5,
+#     'pale_green': 4.5, 'brownish': 5.5, 'yellowish': 6.0,
+#     'yellow_veins': 6.5, 'mosaic_pattern': 7 , 'yellow_green': 7.5,
+#     'gray': 8 , 'blackish': 1.7, 'reddish_orange': 2.8,
+#     'blackish_brown': 3.2, 'grayish_brown': 3.8, 'pale_yellow': 6.8,
+#     'whitish': 9 , 'yellow_brown': 4 
+# }
+# ordered the colors in a more logical sequence
 color_map = {
-    'brown_tips': 0.5, 'black': 1.5, 'brown': 2.5, 'dark_brown': 3.5,
-    'pale_green': 4.5, 'brownish': 5.5, 'yellowish': 6.0,
-    'yellow_veins': 6.5, 'mosaic_pattern': 7.0, 'yellow_green': 7.5,
-    'gray': 8.0, 'blackish': 1.7, 'reddish_orange': 2.8,
-    'blackish_brown': 3.2, 'grayish_brown': 3.8, 'pale_yellow': 6.8,
-    'whitish': 9.0, 'yellow_brown': 4.0
+    'pale_green': 0.5, 'yellow_green': 1, 'yellowish': 1.5, 'pale_yellow': 2,
+    'yellow_veins': 2.5, 'mosaic_pattern': 3, 'whitish': 3.5, 'yellow_brown': 4,
+    'brown_tips': 4.5, 'brownish': 5, 'brown': 5.5, 'reddish_orange': 6, 'blackish_brown':6.5, 'dark_brown': 7,
+    'grayish_brown': 7.5, 'brown_tips': 8, 'blackish': 8.5, 'black': 9, 'gray': 9.5
 }
-
 shape_map = {
-    'elongated': 1.0, 'circular': 2.0, 'irregular': 3.0,
-    'angular': 4.0, 'blister_like': 5.0, 'small_raised': 6.0
+    'elongated': 1 , 'circular': 2 , 'irregular': 3 ,
+    'angular': 4 , 'blister_like': 5 , 'small_raised': 6 
 }
 
+# texture_map = {
+#     'dry': 1 , 'greasy': 2 , 'water_soaked': 3 ,
+#     'smooth': 4 , 'rough': 5 , 'velvety': 6 ,
+#     'powdery': 7 , 'downy': 8 , 'rough': 5 
+# }
+# rearranged texture map for a more natural order
 texture_map = {
-    'dry': 1.0, 'greasy': 2.0, 'water_soaked': 3.0,
-    'smooth': 4.0, 'rough': 5.0, 'velvety': 6.0,
-    'powdery': 7.0, 'downy': 8.0
+    'smooth': 1,  'velvety': 1.5, 'downy': 2, 'powdery': 2.5,
+    'rough': 3, 'dry': 4, 'water_soaked':4, 'greasy':4.5
 }
 
 curl_map = {
-    'none': 0.5, 'slight': 2.0, 'mild': 4.0,
-    'moderate': 6.0, 'severe': 8.0
+    'none': 0.5, 'slight': 2 , 'mild': 4 ,
+    'moderate': 6 , 'severe': 8 
 }
 
-necrosis_map = {'none': 0.5, 'low': 2.5, 'moderate': 5.0, 'high': 7.5}
-defoliation_map = {'low': 2.5, 'moderate': 5.0, 'high': 7.5}
-temp_map = {'cool': 1.0, 'mild': 3.0, 'warm': 5.0, 'hot': 7.0}
-humidity_map = {'low': 1.0, 'moderate': 4.0, 'high': 7.0}
-sunlight_map = {'low': 1.0, 'moderate': 4.0, 'high': 7.0}
+necrosis_map = {'none': 0.5, 'low': 1.5, 'moderate': 2 , 'high': 3}
+defoliation_map = {'low': 2.5, 'moderate': 5 , 'high': 7.5}
+temp_map = {'cool': 1 , 'mild': 2 , 'warm': 2.5, 'hot': 3.5}
+humidity_map = {'low': 1 , 'moderate': 2 , 'high': 3 }
+sunlight_map = {'low': 1 , 'moderate': 2 , 'high': 3 }
 
 
 # Declare fuzzy variables
@@ -61,8 +72,8 @@ def add_label_mfs(antecedent, label_map, width=1.0):
         antecedent[label] = fuzz.trimf(antecedent.universe, [left, c, right])
 
 
-add_label_mfs(color, color_map, 0.8)
-add_label_mfs(shape, shape_map, 0.8)
+add_label_mfs(color, color_map, 1.0)
+add_label_mfs(shape, shape_map, 0.5)
 add_label_mfs(texture, texture_map, 0.8)
 add_label_mfs(curl, curl_map, 1.0)
 add_label_mfs(necrosis, necrosis_map, 1.2)
@@ -83,7 +94,7 @@ disease_labels = [
 
 centers = np.linspace(2, 98, len(disease_labels))
 for lbl, c in zip(disease_labels, centers):
-    diseases[lbl] = fuzz.trimf(diseases.universe, [c - 6, c, c + 6])
+    diseases[lbl] = fuzz.trimf(diseases.universe, [c - 3, c, c + 3])
 
 #Helper for building rules
 label_lookup = {
@@ -106,7 +117,8 @@ def A(var_name, label):
 
     if label not in var.terms:
         # Fallback: create very narrow MF near neutral
-        var[label] = fuzz.trimf(var.universe, [4.9, 5.0, 5.1])
+        # var[label] = fuzz.trimf(var.universe, [4.9, 5.0, 5.1])
+        raise KeyError("missing values")
 
     return var[label]
 
@@ -346,10 +358,12 @@ def diagnose(inputs):
 
     def set_if(varname, mapping, simvar):
         val = inputs.get(varname, None)
-        if val in mapping:
-            sim.input[simvar] = mapping[val]
-        else:
-            sim.input[simvar] = 5.0  # neutral
+        # if val in mapping:
+        #     sim.input[simvar] = mapping[val]
+        # else:
+        #     sim.input[simvar] = 5.0  # neutral
+        """do not need this with drop down type input"""
+        sim.input[simvar] = mapping[val]
 
     set_if('color', color_map, 'color')
     set_if('shape', shape_map, 'shape')
@@ -381,4 +395,13 @@ def diagnose(inputs):
         return "Unknown", scores
 
     best = max(scores, key=scores.get)
+
     return best, scores
+
+# import matplotlib.pyplot as plt
+# defoliation.view()
+# plt.show()
+# texture.view()
+# plt.show()
+# necrosis.view()
+# plt.show()
