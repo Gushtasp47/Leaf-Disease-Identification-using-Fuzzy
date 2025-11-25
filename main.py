@@ -139,7 +139,7 @@ rules.append(ctrl.Rule(
 ))
 rules.append(ctrl.Rule(
     A('shape', 'elongated') & A('necrosis', 'high') & A('defoliation_severity', 'low') &
-    A('temprature', 'hot'),
+    A('temperature', 'hot'),
     diseases['Tip_Burn'] 
 ))
 
@@ -300,7 +300,7 @@ rules.append(ctrl.Rule(
     diseases['Rust']
 ))
 rules.append(ctrl.Rule(
-    (A('color', 'yellow') | A('color', 'reddish_orange') | A('color', 'brownish'))
+    (A('color', 'yellowish') | A('color', 'reddish_orange') | A('color', 'brownish'))
     & A('shape', 'small_raised'),
     diseases['Rust']
 ))
@@ -353,7 +353,7 @@ rules.append(ctrl.Rule(
     diseases['Powdery_Mildew']
 ))
 rules.append(ctrl.Rule(
-    A('texture', 'powdery') & (A('color', 'whitish') | A('color', 'light_gray')),
+    A('texture', 'powdery') & (A('color', 'whitish') | A('color', 'gray')),
       diseases['Powdery_Mildew']
 ))
 
@@ -387,12 +387,12 @@ def diagnose(inputs):
 
     def set_if(varname, mapping, simvar):
         val = inputs.get(varname, None)
-        # if val in mapping:
-        #     sim.input[simvar] = mapping[val]
-        # else:
-        #     sim.input[simvar] = 5.0  # neutral
+        if val in mapping:
+            sim.input[simvar] = mapping[val]
+        else:
+            sim.input[simvar] = 5.0  # neutral
         """do not need this with drop down type input"""
-        sim.input[simvar] = mapping[val]
+        # sim.input[simvar] = mapping[val]
 
     set_if('color', color_map, 'color')
     set_if('shape', shape_map, 'shape')
